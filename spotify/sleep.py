@@ -75,6 +75,9 @@ playlists = sp.current_user_playlists()
 #create a global variable to store the start time of the timer
 start_time = None
 
+#create a global variable for notificataion timing
+time_to_display = None
+
 # Prepare a list of available playlists
 available_playlists = []
 for playlist in playlists['items']:
@@ -146,6 +149,7 @@ def select_playlist(update, context):
 def set_duration(update, context):
     global sleep_duration
     sleep_duration = float(context.args[0])*60
+    global time_to_display
     time_to_display = round(sleep_duration/60)
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text=f"Sleep duration set to: {time_to_display} minute(s)")
