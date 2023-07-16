@@ -146,11 +146,22 @@ def select_playlist(update, context):
         context.bot.send_message(chat_id=user_id,
                                  text="Invalid playlist selection")
 
-#Function to pause playback
-def pause_playback():
+#Function to stop/pause playback
+def stop_playback(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Completed!")
     sp.pause_playback()
+
+
+#Function to update user or time remaining on timer
+def timer_update(update, context):
+    remaining_time = sleep_duration - (time.time() - start_time)
+    logging.warning(f"remaing time is {remaining_time}")
+    # Caluclate time remaining
+    minutes_remaining = round(remaining_time / 60)
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text=f"Time remaining on sleep timer: {minutes_remaining} minute(s)")
+
 
 # Define the /setduration command handler
 def set_duration(update, context):
@@ -184,27 +195,13 @@ def start_timer(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Beginning Now!")
 
-    schedule.every(sleep_duration).seconds.do(pause_playback)
-
+    schedule.every(sleep_duration).seconds.do(stop_playback)
+    schedule.every(5).minutes.do(timer_update)
     while True:
         schedule.run_pending()
         time.sleep(1)
 
-    remaining_time = sleep_duration - (time.time() - start_time)
-    logging.warning(f"remaing time is {remaining_time}")
 
-    while remaining_time > 240:
-        # Caluclate time remaining
-        minutes_remaining = round(remaining_time / 60)
-
-
-        context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=f"Time remaining on sleep timer: {minutes_remaining} minute(s)")
-
-        # sleep for 1 minute
-        time.sleep(300)
-        remaining_time = sleep_duration - (time.time() - start_time)
-        logging.warning(f"remaing time is {remaining_time}")
 
     # Wait for the specified sleep duration
     #time.sleep(sleep_duration)
