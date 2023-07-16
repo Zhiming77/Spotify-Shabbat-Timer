@@ -142,7 +142,7 @@ def select_playlist(update, context):
 # Define the /setduration command handler
 def set_duration(update, context):
     global sleep_duration
-    sleep_duration = int(context.args[0])*60
+    sleep_duration = float(context.args[0])*60
     time_to_display = round(sleep_duration/60)
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text=f"Sleep duration set to: {time_to_display} minute(s)")
