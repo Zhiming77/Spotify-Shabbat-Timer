@@ -184,7 +184,7 @@ def start_timer(update, context):
     remaining_time = sleep_duration - (time.time() - start_time)
     logging.warning(f"remaing time is {remaining_time}")
 
-    while remaining_time > 300:
+    while remaining_time > 240:
         # Caluclate time remaining
         minutes_remaining = round(remaining_time / 60)
 
