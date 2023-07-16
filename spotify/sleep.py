@@ -151,6 +151,7 @@ def stop_playback(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Completed!")
     sp.pause_playback()
+    schedule.clear()
 
 
 #Function to update user or time remaining on timer
@@ -160,7 +161,7 @@ def timer_update(update, context):
     # Caluclate time remaining
     minutes_remaining = round(remaining_time / 60)
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text=f"Time remaining on sleep timer: {minutes_remaining} minute(s)")
+                             text=f"Time remaining on sleep timer: {minutes_remaining} minutes")
 
 
 # Define the /setduration command handler
@@ -194,7 +195,7 @@ def start_timer(update, context):
 
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Beginning Now!")
-    schedule.every(5).minutes.do(timer_update, update = update, context =context)
+    schedule.every(10).minutes.do(timer_update, update = update, context =context)
     schedule.every(sleep_duration).seconds.do(stop_playback, update = update, context =context)
 
     while True:
