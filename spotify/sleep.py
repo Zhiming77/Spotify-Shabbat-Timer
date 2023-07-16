@@ -72,6 +72,9 @@ logging.warning(f"sp is {sp}")
 
 playlists = sp.current_user_playlists()
 
+#create a global variable to store the start time of the timer
+start_time = None
+
 # Prepare a list of available playlists
 available_playlists = []
 for playlist in playlists['items']:
@@ -150,17 +153,39 @@ def set_duration(update, context):
 # Define the /timer command handler
 
 def start_timer(update, context):
+
+    global start_time
+
     if playlist_uri is None:
         context.bot.send_message(chat_id=update.effective_chat.id,
                                 text="Please set the playlist using /setplaylist command first.")
 
         return
 
+    if start_time is None:
+        start_time = time.time()
+
     # Start playback
+
     sp.start_playback(context_uri=playlist_uri)
 
+
     context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="Shabbos Sleep Timer Begnning Now!")
+                             text="Shabbos Sleep Timer Beginning Now!")
+
+    # timer update functionality
+    while time.time() - start_time < sleep_duration:
+        # Caluclate time remaining
+        remaining_time = sleep_duration - (time.time() - start_time)
+        minute_remaining = int(remaining_time // 60)
+
+        # Send update every 5 minute if the timer is set to at least 10 minutes
+        if minute_remaining >= 1:
+            context.bot.send(chat_id=update.effective_chat.id,
+                             text=f"Time remaining on sleep timer: {minute_remaining}")
+
+        # sleep for 1 minute
+        time.sleep(60)
 
     # Wait for the specified sleep duration
     time.sleep(sleep_duration)
