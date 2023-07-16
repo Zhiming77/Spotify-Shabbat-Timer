@@ -148,6 +148,8 @@ def select_playlist(update, context):
 
 #Function to pause playback
 def pause_playback():
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text="Shabbos Sleep Timer Completed!")
     sp.pause_playback()
 
 # Define the /setduration command handler
@@ -187,6 +189,7 @@ def start_timer(update, context):
     while True:
         schedule.run_pending()
         time.sleep(1)
+
     remaining_time = sleep_duration - (time.time() - start_time)
     logging.warning(f"remaing time is {remaining_time}")
 
@@ -204,10 +207,10 @@ def start_timer(update, context):
         logging.warning(f"remaing time is {remaining_time}")
 
     # Wait for the specified sleep duration
-    time.sleep(sleep_duration)
+    #time.sleep(sleep_duration)
 
     # Pause playback
-    sp.pause_playback()
+    #sp.pause_playback()
 
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Completed!")
