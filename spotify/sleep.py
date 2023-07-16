@@ -182,6 +182,7 @@ def start_timer(update, context):
                              text=f"time is now{start_time}")'''
 
     remaining_time = sleep_duration - (time.time() - start_time)
+    logging.warning(f"remaing time is {remaining_time}")
 
     while remaining_time - start_time > 60:
         # Caluclate time remaining
@@ -192,7 +193,7 @@ def start_timer(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id,
                                  text=f"Time remaining on sleep timer: {minutes_remaining}")
         remaining_time = sleep_duration - (time.time() - start_time)
-
+        logging.warning(f"remaing time is {remaining_time}")
         # sleep for 1 minute
         time.sleep(60)
 
