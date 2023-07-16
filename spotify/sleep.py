@@ -163,7 +163,7 @@ def start_timer(update, context):
         return
 
     if start_time is None:
-        start_time = time.time()
+        start_time = time.localtime()
 
     # Start playback
 
@@ -174,10 +174,13 @@ def start_timer(update, context):
                              text="Shabbos Sleep Timer Beginning Now!")
 
     # timer update functionality
-    while time.time() - start_time < sleep_duration:
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text=f"time is now{start_time}")
+
+    while time.localtime() - start_time < sleep_duration:
         # Caluclate time remaining
-        remaining_time = sleep_duration - (time.time() - start_time)
-        minute_remaining = int(remaining_time // 60)
+        remaining_time = time_to_display - (time.time() - start_time)
+        minutes_remaining = int(remaining_time // 60)
 
         # Send update every 5 minute if the timer is set to at least 10 minutes
         if minute_remaining >= 1:
