@@ -1,5 +1,6 @@
 import time
 import spotipy
+import schedule
 from spotipy import MemoryCacheHandler
 from spotipy.oauth2 import SpotifyOAuth
 from telegram.ext import Updater, CommandHandler, filters, MessageHandler, Filters
@@ -145,6 +146,10 @@ def select_playlist(update, context):
         context.bot.send_message(chat_id=user_id,
                                  text="Invalid playlist selection")
 
+#Function to pause playback
+def pause_playback():
+    sp.pause_playback()
+
 # Define the /setduration command handler
 def set_duration(update, context):
     global sleep_duration
@@ -177,10 +182,9 @@ def start_timer(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Beginning Now!")
 
-    # timer update functionality
-    '''context.bot.send_message(chat_id=update.effective_chat.id,
-                             text=f"time is now{start_time}")'''
-
+    schedule.every(sleep_duration).seconds.do(pause_playback)
+    schedule.run_pending()
+    time.sleep(1)
     remaining_time = sleep_duration - (time.time() - start_time)
     logging.warning(f"remaing time is {remaining_time}")
 
