@@ -184,18 +184,17 @@ def start_timer(update, context):
     remaining_time = sleep_duration - (time.time() - start_time)
     logging.warning(f"remaing time is {remaining_time}")
 
-    while remaining_time > 60:
+    while remaining_time > 300:
         # Caluclate time remaining
-        minutes_remaining = (remaining_time // 60)
+        minutes_remaining = round(remaining_time // 60)
 
-        # Send update every 5 minute if the timer is set to at least 10 minutes
 
         context.bot.send_message(chat_id=update.effective_chat.id,
-                                 text=f"Time remaining on sleep timer: {minutes_remaining}")
+                                 text=f"Time remaining on sleep timer: {minutes_remaining} minute(s)")
         remaining_time = sleep_duration - (time.time() - start_time)
         logging.warning(f"remaing time is {remaining_time}")
         # sleep for 1 minute
-        time.sleep(60)
+        time.sleep(300)
 
     # Wait for the specified sleep duration
     time.sleep(sleep_duration)
