@@ -1,0 +1,6 @@
+__pycache__
+*.ini
+*.env
+*.idea
+bot_logic.py
+sleepTimer.py
