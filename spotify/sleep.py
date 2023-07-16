@@ -187,7 +187,7 @@ def start_timer(update, context):
         minutes_remaining = int(remaining_time // 60)
 
         # Send update every 5 minute if the timer is set to at least 10 minutes
-        if minute_remaining >= 1:
+        if minutes_remaining >= 1:
             context.bot.send_message(chat_id=update.effective_chat.id,
                              text=f"Time remaining on sleep timer: {minute_remaining}")
 
