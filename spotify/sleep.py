@@ -194,9 +194,9 @@ def start_timer(update, context):
 
     context.bot.send_message(chat_id=update.effective_chat.id,
                              text="Shabbos Sleep Timer Beginning Now!")
+    schedule.every(5).minutes.do(timer_update, update = update, context =context)
+    schedule.every(sleep_duration).seconds.do(stop_playback, update = update, context =context)
 
-    schedule.every(sleep_duration).seconds.do(stop_playback)
-    schedule.every(5).minutes.do(timer_update)
     while True:
         schedule.run_pending()
         time.sleep(1)
