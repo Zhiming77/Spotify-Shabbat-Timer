@@ -183,8 +183,10 @@ def start_timer(update, context):
                              text="Shabbos Sleep Timer Beginning Now!")
 
     schedule.every(sleep_duration).seconds.do(pause_playback)
-    schedule.run_pending()
-    time.sleep(1)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
     remaining_time = sleep_duration - (time.time() - start_time)
     logging.warning(f"remaing time is {remaining_time}")
 
