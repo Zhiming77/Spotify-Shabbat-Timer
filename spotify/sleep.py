@@ -152,6 +152,7 @@ def stop_playback(update, context):
                              text="Shabbos Sleep Timer Completed!")
     sp.pause_playback()
     schedule.clear()
+    logging.warning("All Sleep Timer Functionality Has Completed")
 
 
 #Function to update user or time remaining on timer
