@@ -148,11 +148,13 @@ def select_playlist(update, context):
 
 #Function to stop/pause playback
 def stop_playback(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="Shabbos Sleep Timer Completed!")
+
     sp.pause_playback()
     schedule.clear()
     logging.warning("All Sleep Timer Functionality Has Completed")
+
+    context.bot.send_message(chat_id=update.effective_chat.id,
+                             text="Shabbos Sleep Timer Completed!")
 
 
 #Function to update user or time remaining on timer
